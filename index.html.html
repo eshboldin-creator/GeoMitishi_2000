@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GeoМытищи 2000 — страны мира</title>
+
+  <style>
+    :root{
+      --bg1:#e9f2ff;
+      --bg2:#ffffff;
+      --ink:#081a33;
+      --muted:#35557a;
+      --chrome1:#dff2ff;
+      --chrome2:#7bd3ff;
+      --chrome3:#1f85ff;
+      --shadow: rgba(0,0,0,.25);
+      --hot:#ff00a8;
+      --lime:#00ff7b;
+      --warn:#ff2a2a;
+      --ok:#00b86b;
+      --border:#7aa7d6;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      color:#081a33;
+      font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
+      background: url('Мытищи .webp') no-repeat center center fixed;
+      background-size: cover;
+    }
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.08;
+      background-image:
+        repeating-linear-gradient(0deg, #000 0, #000 1px, transparent 1px, transparent 3px),
+        repeating-linear-gradient(90deg, #000 0, #000 1px, transparent 1px, transparent 4px);
+      mix-blend-mode:multiply;
+    }
+    .page{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px 12px 30px;
+    }
+    .banner{
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background:
+        linear-gradient(180deg, #ffffff, #ffffffcc),
+        linear-gradient(90deg, rgba(0,255,123,.25), rgba(255,0,168,.18), rgba(31,133,255,.20));
+      box-shadow: 0 14px 34px var(--shadow);
+      padding: 14px 14px 10px;
+      position: relative;
+      overflow:hidden;
+    }
+    .banner:after{
+      content:"";
+      position:absolute; left:-30%; top:-70%;
+      width: 120%; height: 160%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), transparent 55%);
+      transform: rotate(12deg);
+      opacity:.65;
+      pointer-events:none;
+    }
+    .logoRow{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      position:relative;
+      z-index:1;
+    }
+    .logo{
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      text-shadow: 0 1px 0 #fff, 0 2px 0 rgba(0,0,0,.08);
+    }
+    .logo .tag{
+      font-size:12px;
+      font-weight:700;
+      color:#003a7a;
+      background: linear-gradient(180deg, #fff, #dff2ff);
+      border:1px solid #8fb9e6;
+      border-radius: 999px;
+      padding: 4px 10px;
+      display:inline-block;
+      margin-left: 8px;
+      box-shadow: 0 6px 16px rgba(0,0,0,.15);
+    }
+    .marqueeWrap{
+      margin-top: 10px;
+      border: 1px solid #94bfe9;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffffcc, #dff2ffcc);
+      padding: 6px 10px;
+      position: relative;
+      z-index:1;
+    }
+    .marquee{
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .marquee span{
+      display:inline-block;
+      padding-left: 100%;
+      animation: scroll 18s linear infinite;
+    }
+    @keyframes scroll{
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 860px){
+      .layout{ grid-template-columns: 1fr; }
+    }
+    .card{
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.90), rgba(223,242,255,.65));
+      box-shadow: 0 14px 34px var(--shadow);
+      overflow: hidden;
+    }
+    .cardHead{
+      padding: 10px 12px;
+      background: linear-gradient(180deg, var(--chrome1), var(--chrome2));
+      border-bottom: 1px solid #7aa7d6;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .cardHead .title{
+      font-weight: 800;
+      color:#062a5d;
+      text-shadow: 0 1px 0 #fff;
+    }
+    .pill{
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.20);
+      background: linear-gradient(180deg, #ffffff, #e9f2ff);
+      box-shadow: inset 0 1px 0 #fff;
+      color:#234b7a;
+      white-space: nowrap;
+    }
+    .cardBody{ padding: 12px; }
+    .searchRow{
+      display:flex;
+      gap: 10px;
+      align-items:stretch;
+    }
+    input{
+      flex:1;
+      font-size: 15px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid #7aa7d6;
+      background: linear-gradient(180deg, #ffffff, #f2fbff);
+      box-shadow: inset 0 1px 0 #fff, 0 6px 14px rgba(0,0,0,.08);
+      outline: none;
+    }
+    input:focus{
+      border-color: var(--chrome3);
+      box-shadow: 0 0 0 4px rgba(31,133,255,.18), inset 0 1px 0 #fff, 0 10px 24px rgba(0,0,0,.12);
+    }
+    .btn{
+      min-width: 120px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.25);
+      background:
+        linear-gradient(180deg, #ffffff, #dff2ff),
+        linear-gradient(180deg, rgba(255,0,168,.22), rgba(31,133,255,.18));
+      box-shadow: inset 0 1px 0 #fff, 0 10px 22px rgba(0,0,0,.15);
+      cursor:pointer;
+      font-weight: 800;
+      color:#052a62;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .btn:hover{ filter: saturate(1.12) contrast(1.03); }
+    .btn:active{ transform: translateY(1px); box-shadow: inset 0 1px 0 #fff, 0 6px 14px rgba(0,0,0,.12); }
+    .status{
+      margin-top: 10px;
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px dashed #7aa7d6;
+      background: rgba(255,255,255,.75);
+      color: var(--muted);
+    }
+    .status.ok{ border-color: rgba(0,184,107,.55); color: #0a6a45; }
+    .status.bad{ border-color: rgba(255,42,42,.55); color: #8b1a1a; }
+    .suggest{
+      margin-top: 10px;
+      border-radius: 14px;
+      border: 1px solid #94bfe9;
+      background: rgba(255,255,255,.75);
+      padding: 10px;
+      display:none;
+    }
+    .suggest .sTitle{
+      font-weight: 800;
+      font-size: 12px;
+      color:#063066;
+      margin-bottom: 8px;
+    }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.25);
+      background: linear-gradient(180deg, #ffffff, #e9f2ff);
+      box-shadow: inset 0 1px 0 #fff, 0 6px 12px rgba(0,0,0,.10);
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip:hover{ background: linear-gradient(180deg, #ffffff, #dff2ff); }
+    .chip:active{ transform: translateY(1px); }
+    .kv{
+      display:grid;
+      grid-template-columns: 170px 1fr;
+      gap: 10px 12px;
+      align-items: start;
+    }
+    @media (max-width: 520px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+    .k{
+      font-size: 12px;
+      font-weight: 800;
+      color:#053060;
+      background: linear-gradient(180deg, #ffffff, #dff2ff);
+      border: 1px solid #7aa7d6;
+      border-radius: 12px;
+      padding: 8px 10px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      box-shadow: inset 0 1px 0 #fff;
+    }
+    .v{
+      font-size: 14px;
+      border: 1px solid #7aa7d6;
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,.80);
+      box-shadow: inset 0 1px 0 #fff;
+      min-height: 36px;
+    }
+    .v strong{
+      background: linear-gradient(90deg, rgba(0,255,123,.45), rgba(255,0,168,.35));
+      padding: 0 4px;
+      border-radius: 6px;
+    }
+    .footer{
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align:center;
+    }
+    .footer .badges{
+      margin-top: 8px;
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      border: 1px solid rgba(0,0,0,.25);
+      border-radius: 10px;
+      padding: 4px 8px;
+      background: rgba(255,255,255,.75);
+      box-shadow: inset 0 1px 0 #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="banner">
+      <div class="logoRow">
+        <div class="logo">
+          GeoМытищи 2000
+          <span class="tag">Шпоры Для Двоечников</span>
+        </div>
+        <div style="font-size:12px;color:#0a3b78;font-weight:700;">
+          “Страна → столица • язык • форма правления • население”
+        </div>
+      </div>
+
+      <div class="marqueeWrap">
+        <div class="marquee"><span>Г. А. simonov хороший разраб и сделал сайт при помощи ИИ, он крутой и лучший.</span></div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <div class="cardHead">
+          <div class="title">ПОИСК</div>
+          <div class="pill">Тут Страна</div>
+        </div>
+        <div class="cardBody">
+          <div class="searchRow">
+            <input id="q" type="text" placeholder="Введи страну: Финляндия / Япония / Бразилия..." autocomplete="off" />
+            <button class="btn" id="btn">Найти</button>
+          </div>
+          <div id="status" class="status">Готово.</div>
+
+          <div id="suggestBox" class="suggest">
+            <div class="sTitle">Похожие варианты</div>
+            <div id="chips" class="chips"></div>
+          </div>
+
+          <div class="footer">
+            <div>GeoМытищи 2000 © (учебный макет)</div>
+            <div class="badges">
+              <div class="badge">Создатель</div>
+              <div class="badge">Г. А. simonov</div>
+              <div class="badge">Крутой</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <div class="title">РЕЗУЛЬТАТ</div>
+          <div class="pill">Тут результат</div>
+        </div>
+        <div class="cardBody">
+          <div class="kv">
+            <div class="k">Страна</div><div class="v" id="r_country">—</div>
+            <div class="k">Материк</div><div class="v" id="r_continent">—</div>
+            <div class="k">Столица</div><div class="v" id="r_capital">—</div>
+            <div class="k">Офиц. язык</div><div class="v" id="r_lang">—</div>
+            <div class="k">Форма правления</div><div class="v" id="r_gov">—</div>
+            <div class="k">Население</div><div class="v" id="r_pop">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const DATA = [
+  {c:"Алжир", cap:"Алжир", lang:"арабский", pop:"45 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Ангола", cap:"Луанда", lang:"португальский", pop:"36 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Бенин", cap:"Порто-Ново", lang:"французский", pop:"13 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Ботсвана", cap:"Габороне", lang:"английский", pop:"2,6 млн", gov:"парламентская республика", cont:"Африка"},
+  {c:"Буркина-Фасо", cap:"Уагадугу", lang:"французский", pop:"23 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Бурунди", cap:"Гитега", lang:"кирунди", pop:"13 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Габон", cap:"Либревиль", lang:"французский", pop:"2,4 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Гамбия", cap:"Банжул", lang:"английский", pop:"2,7 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Гана", cap:"Аккра", lang:"английский", pop:"34 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Гвинея", cap:"Конакри", lang:"французский", pop:"14 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Гвинея-Бисау", cap:"Бисау", lang:"португальский", pop:"2,1 млн", gov:"смешанная республика", cont:"Африка"},
+  {c:"Демократическая Республика Конго", cap:"Киншаса", lang:"французский", pop:"102 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Джибути", cap:"Джибути", lang:"французский", pop:"1,1 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Египет", cap:"Каир", lang:"арабский", pop:"110 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Замбия", cap:"Лусака", lang:"английский", pop:"21 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Зимбабве", cap:"Хараре", lang:"английский", pop:"16 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Кабо-Верде", cap:"Прая", lang:"португальский", pop:"0,6 млн", gov:"парламентская республика", cont:"Африка"},
+  {c:"Камерун", cap:"Яунде", lang:"французский", pop:"29 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Кения", cap:"Найроби", lang:"суахили", pop:"55 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Коморы", cap:"Морони", lang:"коморский", pop:"0,9 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Республика Конго", cap:"Браззавиль", lang:"французский", pop:"6 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Кот-д’Ивуар", cap:"Ямусукро", lang:"французский", pop:"29 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Лесото", cap:"Масеру", lang:"сесото", pop:"2,3 млн", gov:"конституционная монархия", cont:"Африка"},
+  {c:"Либерия", cap:"Монровия", lang:"английский", pop:"5,4 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Ливия", cap:"Триполи", lang:"арабский", pop:"7 млн", gov:"переходное правительство", cont:"Африка"},
+  {c:"Маврикий", cap:"Порт-Луи", lang:"английский", pop:"1,3 млн", gov:"парламентская республика", cont:"Африка"},
+  {c:"Мавритания", cap:"Нуакшот", lang:"арабский", pop:"4,8 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Мадагаскар", cap:"Антананариву", lang:"малагасийский", pop:"30 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Малави", cap:"Лилонгве", lang:"английский", pop:"20 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Мали", cap:"Бамако", lang:"французский", pop:"23 млн", gov:"переходная республика", cont:"Африка"},
+  {c:"Марокко", cap:"Рабат", lang:"арабский", pop:"37 млн", gov:"конституционная монархия", cont:"Африка"},
+  {c:"Мозамбик", cap:"Мапуту", lang:"португальский", pop:"33 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Намибия", cap:"Виндхук", lang:"английский", pop:"2,6 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Нигер", cap:"Ниамей", lang:"французский", pop:"27 млн", gov:"переходная республика", cont:"Африка"},
+  {c:"Нигерия", cap:"Абуджа", lang:"английский", pop:"223 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Руанда", cap:"Кигали", lang:"киньяруанда", pop:"14 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Сан-Томе и Принсипи", cap:"Сан-Томе", lang:"португальский", pop:"0,2 млн", gov:"смешанная республика", cont:"Африка"},
+  {c:"Сейшелы", cap:"Виктория", lang:"английский", pop:"0,1 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Сенегал", cap:"Дакар", lang:"французский", pop:"18 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Сомали", cap:"Могадишо", lang:"сомалийский", pop:"17 млн", gov:"федеративная республика", cont:"Африка"},
+  {c:"Судан", cap:"Хартум", lang:"арабский", pop:"49 млн", gov:"переходное правительство", cont:"Африка"},
+  {c:"Сьерра-Леоне", cap:"Фритаун", lang:"английский", pop:"8,8 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Танзания", cap:"Додома", lang:"суахили", pop:"67 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Того", cap:"Ломе", lang:"французский", pop:"8,9 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Тунис", cap:"Тунис", lang:"арабский", pop:"12 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Уганда", cap:"Кампала", lang:"английский", pop:"49 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Центральноафриканская Республика", cap:"Банги", lang:"французский", pop:"5,6 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Чад", cap:"Нджамена", lang:"французский", pop:"18 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Экваториальная Гвинея", cap:"Малабо", lang:"испанский", pop:"1,7 млн", gov:"президентская республика", cont:"Африка"},
+  {c:"Эритрея", cap:"Асмэра", lang:"тигринья", pop:"3,7 млн", gov:"однопартийная республика", cont:"Африка"},
+  {c:"Эсватини", cap:"Мбабане", lang:"свази", pop:"1,2 млн", gov:"абсолютная монархия", cont:"Африка"},
+  {c:"Эфиопия", cap:"Аддис-Абеба", lang:"амхарский", pop:"126 млн", gov:"парламентская республика", cont:"Африка"},
+  {c:"Южная Африка", cap:"Претория", lang:"11 официальных языков", pop:"60 млн", gov:"парламентская республика", cont:"Африка"},
+  {c:"Южный Судан", cap:"Джуба", lang:"английский", pop:"11 млн", gov:"президентская республика", cont:"Африка"},
+
+  {c:"Австралия", cap:"Канберра", lang:"английский", pop:"26 млн", gov:"федеративная парламентская конституционная монархия", cont:"Австралия и Океания"},
+  {c:"Вануату", cap:"Порт-Вила", lang:"бислама", pop:"0,33 млн", gov:"парламентская республика", cont:"Австралия и Океания"},
+  {c:"Кирибати", cap:"Южная Тарава", lang:"кирибати", pop:"0,13 млн", gov:"парламентская республика", cont:"Австралия и Океания"},
+  {c:"Маршалловы Острова", cap:"Маджуро", lang:"маршалльский", pop:"0,04 млн", gov:"парламентская республика", cont:"Австралия и Океания"},
+  {c:"Микронезия", cap:"Паликир", lang:"английский", pop:"0,11 млн", gov:"федеративная республика", cont:"Австралия и Океания"},
+  {c:"Науру", cap:"Ярен", lang:"науру", pop:"0,01 млн", gov:"парламентская республика", cont:"Австралия и Океания"},
+  {c:"Новая Зеландия", cap:"Веллингтон", lang:"английский", pop:"5,2 млн", gov:"парламентская конституционная монархия", cont:"Австралия и Океания"},
+  {c:"Палау", cap:"Нгерулмуд", lang:"палау", pop:"0,02 млн", gov:"президентская республика", cont:"Австралия и Океания"},
+  {c:"Папуа — Новая Гвинея", cap:"Порт-Морсби", lang:"английский", pop:"10 млн", gov:"парламентская конституционная монархия", cont:"Австралия и Океания"},
+  {c:"Самоа", cap:"Апиа", lang:"самоанский", pop:"0,2 млн", gov:"парламентская республика", cont:"Австралия и Океания"},
+  {c:"Соломоновы Острова", cap:"Хониара", lang:"английский", pop:"0,7 млн", gov:"парламентская конституционная монархия", cont:"Австралия и Океания"},
+  {c:"Тонга", cap:"Нукуалофа", lang:"тонганский", pop:"0,1 млн", gov:"конституционная монархия", cont:"Австралия и Океания"},
+  {c:"Тувалу", cap:"Фунафути", lang:"тувалу", pop:"0,01 млн", gov:"парламентская конституционная монархия", cont:"Австралия и Океания"},
+  {c:"Фиджи", cap:"Сува", lang:"фиджийский", pop:"0,9 млн", gov:"парламентская республика", cont:"Австралия и Океания"},
+
+  /* Europe + Asia + Americas (коротко: база идентична прошлому файлу, добавлены все страны из таблиц) */
+  {c:"Австрия", cap:"Вена", lang:"немецкий", pop:"9 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Албания", cap:"Тирана", lang:"албанский", pop:"2,8 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Андорра", cap:"Андорра-ла-Велья", lang:"каталанский", pop:"0,08 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Беларусь", cap:"Минск", lang:"белорусский", pop:"9,2 млн", gov:"президентская республика", cont:"Европа"},
+  {c:"Бельгия", cap:"Брюссель", lang:"нидерландский", pop:"11,8 млн", gov:"федеративная конституционная монархия", cont:"Европа"},
+  {c:"Болгария", cap:"София", lang:"болгарский", pop:"6,4 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Босния и Герцеговина", cap:"Сараево", lang:"боснийский", pop:"3,2 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Ватикан", cap:"Ватикан", lang:"латинский", pop:"0,001 млн", gov:"теократическая монархия", cont:"Европа"},
+  {c:"Великобритания", cap:"Лондон", lang:"английский", pop:"67 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Венгрия", cap:"Будапешт", lang:"венгерский", pop:"9,6 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Германия", cap:"Берлин", lang:"немецкий", pop:"84 млн", gov:"федеративная парламентская республика", cont:"Европа"},
+  {c:"Греция", cap:"Афины", lang:"греческий", pop:"10,4 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Дания", cap:"Копенгаген", lang:"датский", pop:"5,9 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Ирландия", cap:"Дублин", lang:"ирландский", pop:"5,3 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Исландия", cap:"Рейкьявик", lang:"исландский", pop:"0,39 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Испания", cap:"Мадрид", lang:"испанский", pop:"48 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Италия", cap:"Рим", lang:"итальянский", pop:"59 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Кипр", cap:"Никосия", lang:"греческий", pop:"1,2 млн", gov:"президентская республика", cont:"Европа"},
+  {c:"Латвия", cap:"Рига", lang:"латышский", pop:"1,8 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Литва", cap:"Вильнюс", lang:"литовский", pop:"2,8 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Лихтенштейн", cap:"Вадуц", lang:"немецкий", pop:"0,04 млн", gov:"конституционная монархия", cont:"Европа"},
+  {c:"Люксембург", cap:"Люксембург", lang:"люксембургский", pop:"0,66 млн", gov:"конституционная монархия", cont:"Европа"},
+  {c:"Мальта", cap:"Валлетта", lang:"мальтийский", pop:"0,54 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Молдова", cap:"Кишинёв", lang:"румынский", pop:"2,5 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Монако", cap:"Монако", lang:"французский", pop:"0,04 млн", gov:"конституционная монархия", cont:"Европа"},
+  {c:"Нидерланды", cap:"Амстердам", lang:"нидерландский", pop:"18 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Норвегия", cap:"Осло", lang:"норвежский", pop:"5,5 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Польша", cap:"Варшава", lang:"польский", pop:"37 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Португалия", cap:"Лиссабон", lang:"португальский", pop:"10 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Румыния", cap:"Бухарест", lang:"румынский", pop:"19 млн", gov:"смешанная республика", cont:"Европа"},
+  {c:"Сан-Марино", cap:"Сан-Марино", lang:"итальянский", pop:"0,03 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Северная Македония", cap:"Скопье", lang:"македонский", pop:"1,8 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Сербия", cap:"Белград", lang:"сербский", pop:"6,7 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Словакия", cap:"Братислава", lang:"словацкий", pop:"5,4 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Словения", cap:"Любляна", lang:"словенский", pop:"2,1 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Украина", cap:"Киев", lang:"украинский", pop:"36 млн", gov:"смешанная республика", cont:"Европа"},
+  {c:"Финляндия", cap:"Хельсинки", lang:"финский", pop:"5,6 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Франция", cap:"Париж", lang:"французский", pop:"65 млн", gov:"смешанная республика", cont:"Европа"},
+  {c:"Хорватия", cap:"Загреб", lang:"хорватский", pop:"3,9 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Черногория", cap:"Подгорица", lang:"черногорский", pop:"0,62 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Чехия", cap:"Прага", lang:"чешский", pop:"10,7 млн", gov:"парламентская республика", cont:"Европа"},
+  {c:"Швейцария", cap:"Берн", lang:"немецкий", pop:"8,8 млн", gov:"федеративная республика", cont:"Европа"},
+  {c:"Швеция", cap:"Стокгольм", lang:"шведский", pop:"10,5 млн", gov:"парламентская конституционная монархия", cont:"Европа"},
+  {c:"Эстония", cap:"Таллин", lang:"эстонский", pop:"1,3 млн", gov:"парламентская республика", cont:"Европа"},
+
+  {c:"Азербайджан", cap:"Баку", lang:"азербайджанский", pop:"10 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Армения", cap:"Ереван", lang:"армянский", pop:"2,8 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Афганистан", cap:"Кабул", lang:"пушту", pop:"41 млн", gov:"теократический режим", cont:"Азия"},
+  {c:"Бангладеш", cap:"Дакка", lang:"бенгальский", pop:"172 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Бахрейн", cap:"Манама", lang:"арабский", pop:"1,5 млн", gov:"конституционная монархия", cont:"Азия"},
+  {c:"Бруней", cap:"Бандар-Сери-Бегаван", lang:"малайский", pop:"0,45 млн", gov:"абсолютная монархия", cont:"Азия"},
+  {c:"Бутан", cap:"Тхимпху", lang:"дзонг-кэ", pop:"0,8 млн", gov:"конституционная монархия", cont:"Азия"},
+  {c:"Вьетнам", cap:"Ханой", lang:"вьетнамский", pop:"100 млн", gov:"социалистическая республика", cont:"Азия"},
+  {c:"Грузия", cap:"Тбилиси", lang:"грузинский", pop:"3,7 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Израиль", cap:"Иерусалим", lang:"иврит", pop:"9,8 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Индия", cap:"Нью-Дели", lang:"хинди", pop:"1,43 млрд", gov:"федеративная парламентская республика", cont:"Азия"},
+  {c:"Индонезия", cap:"Джакарта", lang:"индонезийский", pop:"277 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Иордания", cap:"Амман", lang:"арабский", pop:"11 млн", gov:"конституционная монархия", cont:"Азия"},
+  {c:"Ирак", cap:"Багдад", lang:"арабский", pop:"45 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Иран", cap:"Тегеран", lang:"персидский", pop:"89 млн", gov:"исламская республика", cont:"Азия"},
+  {c:"Йемен", cap:"Сана", lang:"арабский", pop:"34 млн", gov:"переходное правительство", cont:"Азия"},
+  {c:"Казахстан", cap:"Астана", lang:"казахский", pop:"20 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Камбоджа", cap:"Пномпень", lang:"кхмерский", pop:"17 млн", gov:"конституционная монархия", cont:"Азия"},
+  {c:"Катар", cap:"Доха", lang:"арабский", pop:"2,9 млн", gov:"абсолютная монархия", cont:"Азия"},
+  {c:"Киргизия", cap:"Бишкек", lang:"киргизский", pop:"7 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Китай", cap:"Пекин", lang:"китайский", pop:"1,41 млрд", gov:"социалистическая республика", cont:"Азия"},
+  {c:"КНДР", cap:"Пхеньян", lang:"корейский", pop:"26 млн", gov:"социалистическая республика", cont:"Азия"},
+  {c:"Южная Корея", cap:"Сеул", lang:"корейский", pop:"52 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Кувейт", cap:"Эль-Кувейт", lang:"арабский", pop:"4,3 млн", gov:"конституционная монархия", cont:"Азия"},
+  {c:"Лаос", cap:"Вьентьян", lang:"лаосский", pop:"7,5 млн", gov:"социалистическая республика", cont:"Азия"},
+  {c:"Ливан", cap:"Бейрут", lang:"арабский", pop:"5,5 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Малайзия", cap:"Куала-Лумпур", lang:"малайский", pop:"34 млн", gov:"федеративная конституционная монархия", cont:"Азия"},
+  {c:"Мальдивы", cap:"Мале", lang:"дивехи", pop:"0,5 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Монголия", cap:"Улан-Батор", lang:"монгольский", pop:"3,5 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Мьянма", cap:"Нейпьидо", lang:"бирманский", pop:"55 млн", gov:"военный режим", cont:"Азия"},
+  {c:"Непал", cap:"Катманду", lang:"непальский", pop:"30 млн", gov:"федеративная республика", cont:"Азия"},
+  {c:"ОАЭ", cap:"Абу-Даби", lang:"арабский", pop:"10 млн", gov:"федеративная монархия", cont:"Азия"},
+  {c:"Оман", cap:"Маскат", lang:"арабский", pop:"4,5 млн", gov:"абсолютная монархия", cont:"Азия"},
+  {c:"Пакистан", cap:"Исламабад", lang:"урду", pop:"240 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Палестина", cap:"Рамалла", lang:"арабский", pop:"5,3 млн", gov:"частично признанная республика", cont:"Азия"},
+  {c:"Саудовская Аравия", cap:"Эр-Рияд", lang:"арабский", pop:"36 млн", gov:"абсолютная монархия", cont:"Азия"},
+  {c:"Сингапур", cap:"Сингапур", lang:"малайский", pop:"5,9 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Сирия", cap:"Дамаск", lang:"арабский", pop:"22 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Таджикистан", cap:"Душанбе", lang:"таджикский", pop:"10 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Таиланд", cap:"Бангкок", lang:"тайский", pop:"71 млн", gov:"конституционная монархия", cont:"Азия"},
+  {c:"Тимор-Лесте", cap:"Дили", lang:"тетум", pop:"1,3 млн", gov:"парламентская республика", cont:"Азия"},
+  {c:"Туркменистан", cap:"Ашхабад", lang:"туркменский", pop:"6 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Турция", cap:"Анкара", lang:"турецкий", pop:"85 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Узбекистан", cap:"Ташкент", lang:"узбекский", pop:"36 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Филиппины", cap:"Манила", lang:"филиппинский", pop:"117 млн", gov:"президентская республика", cont:"Азия"},
+  {c:"Шри-Ланка", cap:"Шри-Джаяварденепура-Котте", lang:"сингальский", pop:"22 млн", gov:"смешанная республика", cont:"Азия"},
+  {c:"Япония", cap:"Токио", lang:"японский", pop:"124 млн", gov:"парламентская конституционная монархия", cont:"Азия"},
+
+  {c:"Антигуа и Барбуда", cap:"Сент-Джонс", lang:"английский", pop:"0,1 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Багамы", cap:"Нассау", lang:"английский", pop:"0,4 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Барбадос", cap:"Бриджтаун", lang:"английский", pop:"0,28 млн", gov:"парламентская республика", cont:"Северная Америка"},
+  {c:"Белиз", cap:"Бельмопан", lang:"английский", pop:"0,4 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Гаити", cap:"Порт-о-Пренс", lang:"французский", pop:"11 млн", gov:"полупрезидентская республика", cont:"Северная Америка"},
+  {c:"Гватемала", cap:"Гватемала", lang:"испанский", pop:"18 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Гондурас", cap:"Тегусигальпа", lang:"испанский", pop:"10 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Гренада", cap:"Сент-Джорджес", lang:"английский", pop:"0,12 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Доминика", cap:"Розо", lang:"английский", pop:"0,07 млн", gov:"парламентская республика", cont:"Северная Америка"},
+  {c:"Доминиканская Республика", cap:"Санто-Доминго", lang:"испанский", pop:"11 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Канада", cap:"Оттава", lang:"английский", pop:"40 млн", gov:"федеративная парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Коста-Рика", cap:"Сан-Хосе", lang:"испанский", pop:"5,2 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Куба", cap:"Гавана", lang:"испанский", pop:"11 млн", gov:"социалистическая республика", cont:"Северная Америка"},
+  {c:"Мексика", cap:"Мехико", lang:"испанский", pop:"129 млн", gov:"федеративная президентская республика", cont:"Северная Америка"},
+  {c:"Никарагуа", cap:"Манагуа", lang:"испанский", pop:"7 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Панама", cap:"Панама", lang:"испанский", pop:"4,5 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Сальвадор", cap:"Сан-Сальвадор", lang:"испанский", pop:"6,3 млн", gov:"президентская республика", cont:"Северная Америка"},
+  {c:"Сент-Винсент и Гренадины", cap:"Кингстаун", lang:"английский", pop:"0,1 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Сент-Китс и Невис", cap:"Бастер", lang:"английский", pop:"0,05 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"Сент-Люсия", cap:"Кастри", lang:"английский", pop:"0,18 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+  {c:"США", cap:"Вашингтон", lang:"английский", pop:"333 млн", gov:"федеративная президентская республика", cont:"Северная Америка"},
+  {c:"Тринидад и Тобаго", cap:"Порт-оф-Спейн", lang:"английский", pop:"1,5 млн", gov:"парламентская республика", cont:"Северная Америка"},
+  {c:"Ямайка", cap:"Кингстон", lang:"английский", pop:"2,8 млн", gov:"парламентская конституционная монархия", cont:"Северная Америка"},
+
+  {c:"Аргентина", cap:"Буэнос-Айрес", lang:"испанский", pop:"46 млн", gov:"федеративная президентская республика", cont:"Южная Америка"},
+  {c:"Боливия", cap:"Сукре", lang:"испанский", pop:"12 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Бразилия", cap:"Бразилиа", lang:"португальский", pop:"203 млн", gov:"федеративная президентская республика", cont:"Южная Америка"},
+  {c:"Венесуэла", cap:"Каракас", lang:"испанский", pop:"28 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Гайана", cap:"Джорджтаун", lang:"английский", pop:"0,8 млн", gov:"парламентская республика", cont:"Южная Америка"},
+  {c:"Колумбия", cap:"Богота", lang:"испанский", pop:"52 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Парагвай", cap:"Асунсьон", lang:"испанский", pop:"7 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Перу", cap:"Лима", lang:"испанский", pop:"34 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Суринам", cap:"Парамарибо", lang:"нидерландский", pop:"0,6 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Уругвай", cap:"Монтевидео", lang:"испанский", pop:"3,5 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Чили", cap:"Сантьяго", lang:"испанский", pop:"19 млн", gov:"президентская республика", cont:"Южная Америка"},
+  {c:"Эквадор", cap:"Кито", lang:"испанский", pop:"18 млн", gov:"президентская республика", cont:"Южная Америка"}
+];
+
+const byKey = new Map();
+function norm(s){
+  return (s||"")
+    .toLowerCase()
+    .replaceAll("ё","е")
+    .replace(/[’'`´]/g,"'")
+    .replace(/[—–-]/g,"-")
+    .replace(/\s+/g," ")
+    .trim();
+}
+for(const x of DATA){ byKey.set(norm(x.c), x); }
+
+const elQ = document.getElementById("q");
+const elBtn = document.getElementById("btn");
+const elStatus = document.getElementById("status");
+const elSuggestBox = document.getElementById("suggestBox");
+const elChips = document.getElementById("chips");
+
+const r = {
+  country: document.getElementById("r_country"),
+  cont: document.getElementById("r_continent"),
+  cap: document.getElementById("r_capital"),
+  lang: document.getElementById("r_lang"),
+  gov: document.getElementById("r_gov"),
+  pop: document.getElementById("r_pop")
+};
+
+function setStatus(msg, kind=""){
+  elStatus.textContent = msg;
+  elStatus.className = "status" + (kind ? (" " + kind) : "");
+}
+function clearOut(){
+  r.country.textContent = "—";
+  r.cont.textContent = "—";
+  r.cap.textContent = "—";
+  r.lang.textContent = "—";
+  r.gov.textContent = "—";
+  r.pop.textContent = "—";
+}
+function escapeHtml(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function showOut(x){
+  r.country.innerHTML = "<strong>"+escapeHtml(x.c)+"</strong>";
+  r.cont.textContent = x.cont;
+  r.cap.textContent = x.cap;
+  r.lang.textContent = x.lang;
+  r.gov.textContent = x.gov;
+  r.pop.textContent = x.pop;
+}
+
+/* Лёгкие подсказки по расстоянию (Levenshtein) */
+function levenshtein(a,b){
+  a = norm(a); b = norm(b);
+  const m = a.length, n = b.length;
+  if(!m) return n;
+  if(!n) return m;
+  const dp = Array.from({length:m+1}, ()=> new Array(n+1).fill(0));
+  for(let i=0;i<=m;i++) dp[i][0]=i;
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++){
+    for(let j=1;j<=n;j++){
+      const cost = a[i-1]===b[j-1] ? 0 : 1;
+      dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+cost);
+    }
+  }
+  return dp[m][n];
+}
+function suggest(input){
+  const q = norm(input);
+  if(q.length < 2) return [];
+  const scored = DATA.map(x => ({x, d: levenshtein(q, x.c)}))
+    .sort((a,b)=> a.d - b.d)
+    .slice(0,8);
+  return scored
+    .filter(s => s.d <= Math.max(3, Math.floor(q.length/3)))
+    .map(s => s.x);
+}
+function renderSuggest(list){
+  if(!list.length){
+    elSuggestBox.style.display = "none";
+    elChips.innerHTML = "";
+    return;
+  }
+  elSuggestBox.style.display = "block";
+  elChips.innerHTML = "";
+  for(const x of list){
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = x.c;
+    chip.addEventListener("click", ()=>{
+      elQ.value = x.c;
+      run();
+    });
+    elChips.appendChild(chip);
+  }
+}
+function run(){
+  const q0 = elQ.value;
+  const q = norm(q0);
+  // Пасхалка (вымышленная запись)
+  if(q === norm("Остров Эпштейна")){
+    const egg = {c:"Остров Эпштейна", cont:"Северная Америка", cap:"Дом Дядюшки Эпштейна", lang:"Английский", gov:"Богатые Дяденьки Америки", pop:"3000 детей"};
+    renderSuggest([]);
+    showOut(egg);
+    setStatus("Найдено.", "ok");
+    return;
+  }
+  if(!q){
+    clearOut();
+    renderSuggest([]);
+    setStatus("Введите название страны.", "bad");
+    return;
+  }
+  const found = byKey.get(q);
+  if(found){
+    renderSuggest([]);
+    showOut(found);
+    setStatus("Найдено.", "ok");
+    return;
+  }
+  clearOut();
+  const s = suggest(q0);
+  renderSuggest(s);
+  if(s.length){
+    setStatus("Точного совпадения нет. Выберите из похожих вариантов.", "bad");
+  }else{
+    setStatus("Страна не найдена в офлайн-базе.", "bad");
+  }
+}
+
+elBtn.addEventListener("click", run);
+elQ.addEventListener("keydown", (e)=>{ if(e.key==="Enter") run(); });
+elQ.addEventListener("input", ()=>{ renderSuggest(suggest(elQ.value)); });
+
+setStatus("Готово.", "");
+clearOut();
+</script>
+</body>
+</html>
